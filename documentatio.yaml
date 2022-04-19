@@ -1,0 +1,121 @@
+swagger: "2.0"
+info:
+  description: "This is a sample server Petstore server.  You can find out more about    ."
+  version: "1.0.0"
+  title: "Change Price Central"
+
+schemes:
+- "https"
+- "http"
+paths:
+  
+  /central/updatePrices:
+    post:
+      tags:
+      - "central"
+      summary: "Add a new prices to central"
+      description: ""
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          # $ref: "#/definitions/File"
+          $ref: "#/components/schemas/CentralUpdatePricePost"
+      responses:
+        "405":
+          description: "Invalid input"
+        "200":
+          $ref: '#/components/responses/Ok'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "401":
+          $ref: '#/components/responses/Unauthorized' 
+        "404":
+          $ref: '#/components/responses/NotFound'
+        "500":
+          $ref: '#/components/responses/ServerError'
+      
+    
+definitions:
+  File:
+    type: "object"
+    properties:
+      store:
+        type: "string"
+      fileLO:
+        type: "string"
+      filePE:
+        type: "string"
+    xml:
+        name: "File"
+        
+components:
+  responses:
+  
+    Ok:
+      description: (OK) La solicitud ha tenido éxito
+      
+    Unauthorized:
+      description: (Unauthorized) No hay autorizacion para llamar al servicio
+    
+    NotFound:
+      description: (NotFound) No se encontro informacion
+    
+    BadRequest:
+      description: (Bad Request) Los datos enviados son incorrectos o hay datos obligatorios no enviados
+      
+    ServerError:
+      description: Error en servidor
+        
+
+  parameters:
+    token:
+      in: header
+      name: token
+      description: Token de autenticacion en API.
+      required: true
+      schema:
+        type: string
+    
+  schemas:
+      CentralUpdatePricePost:
+        type: object
+        properties:
+          store:
+            type: string
+            description: Código de cada tienda
+          fileLO:
+            type: string
+            description: Nombre del archivo LO a actualizar
+          filePE:
+            type: string
+            description: Nombre del archivo PE a actualizar
+            
+      LocalUpdatePricePost:
+        type: object
+        properties:
+          store:
+            type: string
+            description: Código de cada tienda
+          fileLO:
+            type: string
+            description: Nombre del archivo LO a actualizar
+          filePE:
+            type: string
+            description: Nombre del archivo PE a actualizar
+      
+      LocalSaveUpdateFilesPost:
+        type: object
+        properties:
+          status:
+            type: string
+            description: Estado de si el archivo fue recibido y descomprimido de forma correcta.
+          
